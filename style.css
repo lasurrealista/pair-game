@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     margin: auto;
-}
+    }
 
 body {
     background-color: rgb(160, 224, 233);
@@ -24,7 +24,7 @@ body {
     font-size: 2.3rem;
 }
 
-.instruction--2 {
+.instruction--2, .points {
     font-size: 1.3rem;
 }
 
@@ -88,7 +88,11 @@ img {
     justify-content: center;
 }
 
-.card:active {
+.card--flipped {
+    transform: rotateY(180deg);
+}
+
+.card.fixed {
     transform: rotateY(180deg);
 }
 
