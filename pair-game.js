@@ -1,5 +1,32 @@
 'use strict';
 
+const minute = document.querySelector('.minute');
+const second = document.querySelector('.second');
+
+let seconds = 0;
+
+let hasGameStarted = 0;
+
+const update = (num) => {
+    return num < 10 ? `0${num}` : `${num}`;
+};
+
+function measureTime() {
+    if (hasGameStarted === 0) {
+        hasGameStarted = 1;
+        const startInterval = setInterval(function() {
+            seconds++;
+            minute.textContent = update(Math.floor(seconds / 60));
+            second.textContent = update(seconds % 60);
+            if (flipped.length == 10) clearInterval(startInterval);
+        }, 1000);
+    };
+};
+
+function startInterval() {
+    setInterval(intervalTime, 1000);
+};
+
 (function () {
     const shuffle = (array) => {
         var currentIndex = array.length, temporaryValue, randomIndex;
@@ -52,9 +79,12 @@
     let blockClick = false;
 
     const flipCard = (ev) => {
+        measureTime();
+        
         if (!blockClick) {
             ev.currentTarget.classList.toggle('card--flipped');
         }
+
         const flipped = document.querySelectorAll('.card--flipped');
         if (flipped.length > 1) {
             blockClick = true;
@@ -63,28 +93,16 @@
                 cards.forEach(card => card.classList.remove('card--flipped'));
                 blockClick = false;
             }, 1000);
+
             const cls = document.querySelector('.card--flipped i').className.split(' ').pop();
             if (document.querySelectorAll(`.card--flipped i.${cls}`).length > 1) {
                 points++;
+                const pointCounter = document.querySelector('.point__counter')
+                pointCounter.textContent = `YOUR POINTS: ${points}`;
                 flipped.forEach(card => card.classList.add('fixed'));
-            }
-        }
-    };
-
-    const timer = document.querySelector('.timer');
-    const minute = document.querySelector('.minute');
-    const second = document.querySelector('.second');
-    let seconds = 0;
-
-    const measureTime = setInterval(() => {
-        minute.textContent = update(parseInt(seconds / 60));
-        second.textContent = update(++seconds % 60);
-    }, 1000);
-
-    const update = (number) => {
-        if (number < 10) { return '0' + number }
-        else { return number };
-    };
+            }; 
+        }; 
+        }; 
 
     cards.forEach(card => card.addEventListener('click', flipCard));
 })();
