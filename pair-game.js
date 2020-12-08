@@ -4,27 +4,29 @@ const minute = document.querySelector('.minute');
 const second = document.querySelector('.second');
 
 let seconds = 0;
-
 let hasGameStarted = 0;
 
 const update = (num) => {
     return num < 10 ? `0${num}` : `${num}`;
 };
 
+let timerStopped = false;
 function measureTime() {
     if (hasGameStarted === 0) {
         hasGameStarted = 1;
-        const startInterval = setInterval(function() {
+        setInterval(function() {
+            if (timerStopped) {
+                return;
+            }
             seconds++;
-            minute.textContent = update(Math.floor(seconds / 60));
-            second.textContent = update(seconds % 60);
-            if (flipped.length == 10) clearInterval(startInterval);
+            showTime();
         }, 1000);
     };
 };
 
-function startInterval() {
-    setInterval(intervalTime, 1000);
+function showTime() {
+    minute.textContent = update(Math.floor(seconds / 60));
+    second.textContent = update(seconds % 60);
 };
 
 (function () {
@@ -102,7 +104,20 @@ function startInterval() {
                 flipped.forEach(card => card.classList.add('fixed'));
             }; 
         }; 
+
+        // Check winning.
+
+        const fixed = document.querySelectorAll('.card.fixed');
+        if (fixed.length == 10) {
+            timerStopped = true;
+            seconds = 0;
+            setTimeout( () => {
+                cards.forEach(card => card.classList.remove('fixed'));
+                showTime();
+            }, 5000);
+        }
         }; 
+
 
     cards.forEach(card => card.addEventListener('click', flipCard));
 })();
