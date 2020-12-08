@@ -105,7 +105,7 @@ function showTime() {
             }; 
         }; 
 
-        // Check winning.
+        // Check for the winning condition.
 
         const fixed = document.querySelectorAll('.card.fixed');
         if (fixed.length == 10) {
